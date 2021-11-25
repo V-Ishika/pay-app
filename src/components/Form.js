@@ -11,11 +11,9 @@ const Form=(props)=>{
 
 const [customer,setCustomer]=useState({customerID: '', name: '', clearBalance: 0, overdraft: ''})
 const [status,setStatus]=useState(0)
-const [bank,setBank]=useState({bic: '', bankName: ''})
+const [bank,setBank]=useState({bic: '', bankName: ''})// useState("")
 const [bstatus,setBstatus]=useState(0)
 const [transaction,setTransaction]=useState({
-  cust_id:"",
-  bank_bic:"",
   amount:0,
   rec_name:"",
   rec_ac_num:"",
@@ -49,7 +47,7 @@ if (e.target.value.length===14){
   axios.get(`http://localhost:8080/pay/getc/${e.target.value}`)
   .then((response) => {console.log(response.status)
   setCustomer(response.data)
-  setTransaction({...transaction,cust_id:e.target.value})
+ 
 
  })
   .catch(error=>console.log(error))
@@ -69,9 +67,11 @@ if (e.target.value.length===14){
   setBstatus(e.target.value.length)
   if (e.target.value.length===11){
     axios.get(`http://localhost:8080/pay/get-BIC/${e.target.value}`)
-    .then((response) => {console.log(response.status)
+    .then((response) => {
+    console.log(response.status)
     setBank(response.data)
-    setTransaction({...transaction,bank_bic:e.target.value})
+  
+    
 
   
    })
@@ -85,7 +85,12 @@ if (e.target.value.length===14){
       
     }
 
-
+useEffect(()=>{
+  setTransaction({...transaction,bank})
+},[bank])
+useEffect(()=>{
+  setTransaction({...transaction,customer})
+},[customer])
 
   
 
