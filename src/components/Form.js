@@ -4,6 +4,7 @@ import  {useState} from 'react'
 import Customer from './Customer'
 import Bank from './Bank'
 import './form.css'
+import Transaction from './Transaction'
 
 
 const Form=(props)=>{
@@ -27,6 +28,7 @@ const [transaction,setTransaction]=useState({
       props.addTransactionHandler(transaction)
     }
   },[transaction])
+const [transactionlist,setTransactionlist]=useState([])
 
 
  
@@ -91,24 +93,41 @@ useEffect(()=>{
 useEffect(()=>{
   setTransaction({...transaction,customer})
 },[customer])
+const [submit,setSubmit]=useState("false")
 
-  
+
+const addTransaction=(e)=>{
+ // e.preventDefault()
+ // axios.post("http://localhost:8080/transaction",transaction).then(response=>{
+   // setTransaction(response.data)
+    //setTransactionlist([response.data])
+  //})
+  setSubmit("true")
+
+}
+const submitHandler=(submit)=>
+{
+  setSubmit(submit)
+}
 
 
-    return <div className="row" >
+    if (submit==="false")
+
+
+    return <div className="row" style={{marginLeft:50, marginRight:50}} >
                <div style={{borderWidth:2,borderColor:"#FF0000",borderStyle:"solid",padding:50}}>
                      
                 <div className="col-6" >
                 <form className="row g-3">
                              <div className="mb-3">
                                          <label for="customerID" className="form-label">Date</label>
-                                         <input type="date" className="form-control" id="customerID" placeholder="enter customer ID" onChange={e=>setTransaction({...transaction,trans_date:e.target.value})} />
+                                         <input type="date" className="form-control" id="date" required placeholder="enter customer ID" onChange={e=>setTransaction({...transaction,trans_date:e.target.value})} />
                                          <div id="customerDetails"></div>
                              </div>
                              <div className="mb-3">
                                          <h4 style={{marginBottom:20}}>Transfer from</h4>
                                          <label for="customerID" className="form-label">Customer ID</label>
-                                         <input type="text" className="form-control" id="customerID" placeholder="enter customer ID" onChange={customerIDHandler}/>
+                                         <input type="text" required className="form-control" id="customerID" placeholder="enter customer ID" onChange={customerIDHandler}/>
                                          <div><Customer status={status} customer={customer}/></div>
                              </div>
                             
@@ -173,7 +192,7 @@ useEffect(()=>{
       </div>
       <div className="mb-3">
       
-      <button class="btn btn-danger" type="submit">Submit</button>                 
+      <button class="btn btn-danger" type="button" onClick={addTransaction}>Submit</button>                 
 
 
       </div>
@@ -182,6 +201,7 @@ useEffect(()=>{
 
       </div>
       </div>
+      if(submit==="true") return <div><Transaction submitHandler={submitHandler}/></div>
 
      
  

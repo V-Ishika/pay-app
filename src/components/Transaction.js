@@ -1,11 +1,17 @@
 import React, {useEffect,useState} from 'react'
+import {useNavigate} from 'react-router-dom'
+
 
 //const [transactionlist,setTransactionList]=useState([])
 
 const Transaction=(props)=>{
 
+
+ 
+ 
+   const navigate=useNavigate()
    const message = <div className="col-6 " style={{margin:"auto"}}>
-       <table className="table table-primary table-borderless">
+       <table className="table table-Light table-borderless">
   <thead>
     <tr>
       <th scope="col">TRANSACTION SUCCESSFULL!!!</th>
@@ -30,8 +36,10 @@ const Transaction=(props)=>{
       <td colspan="2">3000</td>
    
     </tr>
+
   </tbody>
 </table>
+<div style={{marginLeft:10,marginTop:60}}><button type="button" class="btn btn-danger" onClick={()=>{props.submitHandler("false")}}>Go Back</button></div>
        
    </div>
 
