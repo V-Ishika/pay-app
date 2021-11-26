@@ -12,22 +12,22 @@ const Form=(props)=>{
 
 const [customer,setCustomer]=useState({customerID: '', name: '', clearBalance: 0, overdraft: ''})
 const [status,setStatus]=useState(0)
-const [bank,setBank]=useState({bic: '', bankName: ''})// useState("")
+const [reciever,setReciever]=useState({bic: '', bankName: ''})// useState("")
 const [bstatus,setBstatus]=useState(0)
 const [transaction,setTransaction]=useState({
   amount:0,
-  rec_name:"",
-  rec_ac_num:"",
-  trans_date:undefined,
-  trans_fee:0.0,
+  reciever_name:"",
+  reciever_accnum:"",
+  transfer_date:undefined,
+  transfer_fee:0.0,
   message_code:"",
   transfer_type:""})
-  useEffect(()=>{
-    console.log(transaction)
-    if (transaction.amount!=""){
-      props.addTransactionHandler(transaction)
-    }
-  },[transaction])
+  //useEffect(()=>{
+  //  console.log(transaction)
+   // if (transaction.amount!=""){
+     // props.addTransactionHandler(transaction)
+   // }
+ // },[transaction])
 const [transactionlist,setTransactionlist]=useState([])
 
 
@@ -71,7 +71,7 @@ if (e.target.value.length===14){
     axios.get(`http://localhost:8080/pay/get-BIC/${e.target.value}`)
     .then((response) => {
     console.log(response.status)
-    setBank(response.data)
+    setReciever(response.data)
   
     
 
@@ -88,8 +88,8 @@ if (e.target.value.length===14){
     }
 
 useEffect(()=>{
-  setTransaction({...transaction,bank})
-},[bank])
+  setTransaction({...transaction,reciever})
+},[reciever])
 useEffect(()=>{
   setTransaction({...transaction,customer})
 },[customer])
@@ -97,11 +97,14 @@ const [submit,setSubmit]=useState("false")
 
 
 const addTransaction=(e)=>{
- // e.preventDefault()
- // axios.post("http://localhost:8080/transaction",transaction).then(response=>{
-   // setTransaction(response.data)
-    //setTransactionlist([response.data])
-  //})
+  e.preventDefault()
+  console.log("CHECKING ERROR")
+  console.log(transaction)
+  axios.post("http://localhost:8080/transaction/newtransaction",transaction).then(response=>{
+    console.log(response)
+    setTransaction(response.data)
+    setTransactionlist([response.data])
+  })
   setSubmit("true")
 
 }
@@ -136,7 +139,7 @@ const submitHandler=(submit)=>
                                            <h4 style={{marginBottom:20}}>Transfer To</h4>
                                            <label for="BIC" className="form-label">BIC</label>
                                            <input type="text" className="form-control" id="BIC" placeholder="enter BIC" onChange={bankIDHandler}/>
-                                           <div><Bank bstatus={bstatus} bank={bank}/></div>
+                                           <div><Bank bstatus={bstatus} bank={reciever}/></div>
                             </div>
                             <div className="mb-3">
                                            <label for="BIC" className="form-label">Name</label>
