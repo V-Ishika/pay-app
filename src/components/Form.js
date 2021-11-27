@@ -14,6 +14,7 @@ const [customer,setCustomer]=useState({customerID: '', name: '', clearBalance: 0
 const [status,setStatus]=useState(0)
 const [reciever,setReciever]=useState({bic: '', bankName: ''})// useState("")
 const [bstatus,setBstatus]=useState(0)
+const[request,setRequest]=useState("false")
 const [transaction,setTransaction]=useState({
   amount:0,
   message_code:"", 
@@ -95,6 +96,13 @@ useEffect(()=>{
 },[customer])
 const [submit,setSubmit]=useState("false")
 
+useEffect(()=>{
+  console.log("request sending")
+  axios.post("http://localhost:8080/transaction/newtransaction",transaction).
+  then(response=>console.log(response.data)).catch(error=>console.log(error))
+}
+,[request])
+
 
 const addTransaction=(e)=>{
 
@@ -102,9 +110,8 @@ const addTransaction=(e)=>{
   e.preventDefault()
   console.log("CHECKING ERROR")
   console.log(transaction)
-  axios.post("http://localhost:8080/transaction/newtransaction",transaction).
-  then(response=>console.log(response.data)).catch(error=>console.log(error))
-  
+
+setRequest("true")
    
   setSubmit("true")
 

@@ -2,7 +2,7 @@ import React from 'react'
 
 
 const Transactioncard=(props)=>{
-    const space="   -    "
+    const amount = props.transaction.amount+props.transaction.transfer_fee
 
     return (
 <div><table class="table table-dark table-striped table-hover">
@@ -10,8 +10,8 @@ const Transactioncard=(props)=>{
 <tbody>
 
   <tr>
-    <th scope="row" class="col-4 col-lg-2" >{`${props.transaction.transaction_id} ${space}  ${props.transaction.transfer_date} `}  </th>
-    <td class="col-4 col-lg-2" >{`${props.transaction.amount} + ${props.transaction.transfer_fee}`}</td>
+    <th scope="row" class="col-4 col-lg-2" >{`${props.transaction.transaction_id} - ${props.transaction.transfer_date} `}  </th>
+    <td class="col-4 col-lg-2" >{amount}</td>
     <td class="col-4 col-lg-2" >{props.transaction.customer.customerID}</td>
     <td class="col-4 col-lg-2"  >{props.transaction.reciever.bic}</td>
     <td class="col-4 col-lg-2">  {props.transaction.reciever_accnum}</td>
