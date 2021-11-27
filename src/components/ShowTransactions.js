@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import Transactioncard from './Transactioncard'
 
 const ShowTransactions=()=>{
 
@@ -16,36 +17,31 @@ const ShowTransactions=()=>{
 
 
     },[])
-    return <div><table class="table table-dark table-striped table-hover">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
-    </tbody>
-  </table>
+    const header=<div><table class="table table-dark table-striped table-hover">
 
+    <thead>
+    
+      <tr>
+        <th scope="col" class="col-4 col-lg-2" >ID-DATE </th>
+        <th  scope="col" class="col-4 col-lg-2" >AMOUNT</th>
+        <th scope="col"  class="col-4 col-lg-2" >CUSTOMER ID</th>
+        <th scope="col"  class="col-4 col-lg-2"  >RECIEVER BIC</th>
+        <th scope="col" class="col-4 col-lg-2"> RECIEVER A/C</th>
+        <th scope="col"  class="col-4 col-lg-2"  >TRANSFER TYPE</th>
+      </tr>
+      
+    </thead>
+    </table>
+    
     </div>
+
+    const renderlist =transactionlist.map((transaction)=>  {
+        return(<Transactioncard key={transaction.transaction_id} transaction={transaction}/>)
+    })  
+if (transactionlist.length>0)
+   return  <div><div>{header}</div><div>{renderlist}</div></div>
+   else return <div><h1>No Transactions</h1></div>
+
+   
 }
 export default ShowTransactions

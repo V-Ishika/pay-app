@@ -15,15 +15,7 @@ function App() {
 
 
   
- const  [transactionlist, setTransactionlist]=useState([])   
 
-    const addTransactionHandler=(trans_obj)=>{
-      console.log("grandparent")
-      console.log(trans_obj)
-      setTransactionlist([...transactionlist,trans_obj])
-      console.log(transactionlist)
-  
-    }
 
   
     
@@ -31,16 +23,16 @@ function App() {
 return (<div className="container">
       <Navbar  />
       <br/>
- {/*     <Routes>
-        <Route path="/" element={<Form addTransactionHandler={addTransactionHandler}/>} />
+    <Routes>
+        <Route path="/" element={<Form />} />
         <Route path="showtransactions" element={<ShowTransactions
         ></ShowTransactions>}/> 
         <Route path="logout" element={<Logout />} />
 
 
  
-        </Routes>*/}
-        <ShowTransactions/>
+        </Routes>
+      
         </div>)
         
 

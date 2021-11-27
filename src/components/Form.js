@@ -51,8 +51,6 @@ if (e.target.value.length===14){
   axios.get(`http://localhost:8080/pay/getc/${e.target.value}`)
   .then((response) => {console.log(response.status)
   setCustomer(response.data)
- 
-
  })
   .catch(error=>console.log(error))
  
@@ -105,10 +103,7 @@ const addTransaction=(e)=>{
   console.log("CHECKING ERROR")
   console.log(transaction)
   axios.post("http://localhost:8080/transaction/newtransaction",transaction).
-          then(response=>{console.log(response.data.customer.clearBalance);
-             props.addTransactionHandler(response.data);
-        
-           }).catch(error=>console.log(error))
+  then(response=>console.log(response.data)).catch(error=>console.log(error))
   
    
   setSubmit("true")
