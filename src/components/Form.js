@@ -16,19 +16,21 @@ const [reciever,setReciever]=useState({bic: '', bankName: ''})// useState("")
 const [bstatus,setBstatus]=useState(0)
 const [transaction,setTransaction]=useState({
   amount:0,
-  reciever_name:"",
+  message_code:"", 
   reciever_accnum:"",
+  reciever_name:"",
+  transaction_id:0,
   transfer_date:undefined,
   transfer_fee:0.0,
-  message_code:"",
+
   transfer_type:""})
-  //useEffect(()=>{
-  //  console.log(transaction)
-   // if (transaction.amount!=""){
-     // props.addTransactionHandler(transaction)
-   // }
+ // useEffect(()=>{
+ //console.log(transaction)
+ //  if (transaction.amount!=""){
+  //   props.addTransactionHandler(transaction)
+  // }
  // },[transaction])
-const [transactionlist,setTransactionlist]=useState([])
+
 
 
  
@@ -36,9 +38,9 @@ const [transactionlist,setTransactionlist]=useState([])
 
 
   
-//const [errormessage,setErrorMessage]=useState("")
 
-//const [val,setVal]=useState("")
+
+
 const customerIDHandler=(e)=>{
   console.log(e.target.value)
 
@@ -97,20 +99,28 @@ const [submit,setSubmit]=useState("false")
 
 
 const addTransaction=(e)=>{
+
+  
   e.preventDefault()
   console.log("CHECKING ERROR")
   console.log(transaction)
-  axios.post("http://localhost:8080/transaction/newtransaction",transaction).then(response=>{
-    console.log(response)
-    setTransaction(response.data)
-    setTransactionlist([response.data])
-  })
+  axios.post("http://localhost:8080/transaction/newtransaction",transaction).
+          then(response=>{console.log(response.data.customer.clearBalance);
+             props.addTransactionHandler(response.data);
+        
+           }).catch(error=>console.log(error))
+  
+   
   setSubmit("true")
 
 }
-const submitHandler=(submit)=>
+const submitHandler=(submit,status,bstatus)=>
+
 {
+
   setSubmit(submit)
+  setStatus(status)
+  setBstatus(bstatus)
 }
 
 
@@ -124,7 +134,7 @@ const submitHandler=(submit)=>
                 <form className="row g-3">
                              <div className="mb-3">
                                          <label for="customerID" className="form-label">Date</label>
-                                         <input type="date" className="form-control" id="date" required placeholder="enter customer ID" onChange={e=>setTransaction({...transaction,trans_date:e.target.value})} />
+                                         <input type="date" className="form-control" required id="date" required placeholder="enter customer ID" onChange={e=>setTransaction({...transaction,transfer_date:e.target.value})} />
                                          <div id="customerDetails"></div>
                              </div>
                              <div className="mb-3">
@@ -138,16 +148,16 @@ const submitHandler=(submit)=>
                             <div className="mb-3">
                                            <h4 style={{marginBottom:20}}>Transfer To</h4>
                                            <label for="BIC" className="form-label">BIC</label>
-                                           <input type="text" className="form-control" id="BIC" placeholder="enter BIC" onChange={bankIDHandler}/>
+                                           <input type="text" required className="form-control" id="BIC" placeholder="enter BIC" onChange={bankIDHandler}/>
                                            <div><Bank bstatus={bstatus} bank={reciever}/></div>
                             </div>
                             <div className="mb-3">
                                            <label for="BIC" className="form-label">Name</label>
-                                           <input type="text" className="form-control" id="name" placeholder="enter Name" onChange={e=>setTransaction({...transaction,rec_name:e.target.value})}/>
+                                           <input type="text" required className="form-control" id="name" placeholder="enter Name" onChange={e=>setTransaction({...transaction,reciever_name:e.target.value})}/>
                              </div>
                              <div className="mb-3">
                                            <label for="BIC" className="form-label">A/c Number</label>
-                                          <input type="text" className="form-control" id="accnum" placeholder="enter A/c Number" onChange={e=>setTransaction({...transaction,rec_ac_num:e.target.value})}/>
+                                          <input type="text" required className="form-control" id="accnum" placeholder="enter A/c Number" onChange={e=>setTransaction({...transaction,reciever_accnum:e.target.value})}/>
                            
 
 
@@ -160,8 +170,8 @@ const submitHandler=(submit)=>
 
       <select class="form-select form-select-sm" id="transfertype" onChange={e=>setTransaction({...transaction,transfer_type:e.target.value})} aria-label=".form-select-lg example">
   <option selected>-select-</option>
-  <option value="customertransfer">Customer Transfer</option>
-  <option value="banktransfer">Bank Transfer</option>
+  <option value="Customer Transfer">Customer Transfer</option>
+  <option value="Bank Transfer">Bank Transfer</option>
 </select>
                            
 
@@ -188,7 +198,7 @@ const submitHandler=(submit)=>
       </div>
       <div className="mb-3">
                             <label for="BIC" className="form-label">Amount</label>
-                           <input type="number" className="form-control" id="num" placeholder="enter Amount" onChange={e=>setTransaction({...transaction,amount:e.target.value,trans_fee:0.0025*e.target.value})}/>
+                           <input type="number" className="form-control" id="num" placeholder="enter Amount" onChange={e=>setTransaction({...transaction,amount:e.target.value,transfer_fee:0.0025*e.target.value})}/>
                            
 
 
@@ -204,7 +214,7 @@ const submitHandler=(submit)=>
 
       </div>
       </div>
-      if(submit==="true") return <div><Transaction submitHandler={submitHandler}/></div>
+      if(submit==="true") return <div><Transaction submitHandler={submitHandler}  transaction={transaction}/></div>
 
      
  

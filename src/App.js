@@ -10,56 +10,44 @@ import ShowTransactions from './components/ShowTransactions'
 
 
 
+
 function App() {
 
 
-  const [transaction,setTransaction]=useState({
   
-    amount:0,
-    rec_name:"",
-    rec_ac_num:"",
-    trans_date:undefined,
-    trans_fee:0.0,
-    message_code:"",
-    transfer_type:""})
  const  [transactionlist, setTransactionlist]=useState([])   
 
     const addTransactionHandler=(trans_obj)=>{
       console.log("grandparent")
       console.log(trans_obj)
-      setTransaction(trans_obj)
+      setTransactionlist([...transactionlist,trans_obj])
+      console.log(transactionlist)
+  
     }
-    useEffect(()=>{setTransactionlist([...transactionlist,transaction])},[transaction])
-    {/*  <div style={{marginLeft:50,marginRight:50}}>
-   <Header/>
-    </div>
-   <div  style={{marginLeft:100,marginRight:100}}>
-    <Form  addTransactionHandler={addTransactionHandler}/>
-  </div>
- <div style={{marginTop:100}}><Transaction transaction={transaction}/></div>*/}
 
-
-  return (
   
     
     
-<div className="container">
+return (<div className="container">
       <Navbar  />
       <br/>
-      <Routes>
-        <Route path="/" element={<Form />} />
-        <Route path="showtransactions" element={<ShowTransactions  />} />
+ {/*     <Routes>
+        <Route path="/" element={<Form addTransactionHandler={addTransactionHandler}/>} />
+        <Route path="showtransactions" element={<ShowTransactions
+        ></ShowTransactions>}/> 
         <Route path="logout" element={<Logout />} />
 
 
  
-      </Routes>
-    </div>
+        </Routes>*/}
+        <ShowTransactions/>
+        </div>)
+        
 
 
   
     
-  )
-}
+        }  
 
-export default App;
+
+export default App
