@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Transactioncard from './Transactioncard'
 
+
 const ShowTransactions=()=>{
 
 
@@ -26,8 +27,8 @@ const ShowTransactions=()=>{
         <th  scope="col" class="col-4 col-lg-2" >AMOUNT</th>
         <th scope="col"  class="col-4 col-lg-2" >CUSTOMER ID</th>
         <th scope="col"  class="col-4 col-lg-2"  >RECIEVER BIC</th>
-        <th scope="col" class="col-4 col-lg-2"> RECIEVER A/C</th>
-        <th scope="col"  class="col-4 col-lg-2"  >TRANSFER TYPE</th>
+        <th scope="col" class="col-4 col-lg-2"> RECIEVER NAME</th>
+        <th scope="col"  class="col-4 col-lg-2"  >RECIEVER A/C</th>
       </tr>
       
     </thead>

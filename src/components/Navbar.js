@@ -17,9 +17,7 @@ const navbar=<nav className="navbar navbar-expand-lg navbar-dark bg-danger" styl
       <li className="nav-item">
         <Link className="nav-link" to="/showtransactions">Show Transactions</Link>
       </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/logout">Logout</Link>
-      </li>
+     
       
     </ul>
   </div>

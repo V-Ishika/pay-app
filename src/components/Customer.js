@@ -30,11 +30,17 @@ const Customer=(props)=>{
   </tbody>
 </table>
     </div>
+  
    
     console.log(props.status)
-    if(props.status===14)
+    console.log(props.cerror)
+    if(props.status===14 && props.cerror===false)
     return <div>{message}</div>
-    else return <div></div>
+    if (props.cerror===true && props.status===14)
+    return <div style={{color:'red',paddingTop:30}}>Customer with given ID do not exist</div>
+    
+    return <div></div>
 
-}
+
+  }
 export default Customer;

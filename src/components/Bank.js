@@ -29,9 +29,11 @@ const Bank=(props)=>{
     </div>
    
     console.log(props.bstatus)
-    if(props.bstatus===11)
+    if(props.bstatus===11 && props.berror===false)
     return <div>{message}</div>
-    else return <div></div>
-
+    if(props.bstatus===11 && props.berror===true)
+    return <div style={{color:'red',paddingTop:30}}>Bank BIC do not exist</div>
+    return <div></div>
+  
 }
 export default Bank;

@@ -1,4 +1,7 @@
 import React from 'react'
+import { BrowserRouter,Routes, Route ,Link} from 'react-router-dom'
+import TransactionDetails from "./TransactionDetails"
+
 
 
 const Transactioncard=(props)=>{
@@ -14,12 +17,13 @@ const Transactioncard=(props)=>{
     <td class="col-4 col-lg-2" >{amount}</td>
     <td class="col-4 col-lg-2" >{props.transaction.customer.customerID}</td>
     <td class="col-4 col-lg-2"  >{props.transaction.reciever.bic}</td>
-    <td class="col-4 col-lg-2">  {props.transaction.reciever_accnum}</td>
-    <td class="col-4 col-lg-2"  >{props.transaction.transfer_type}</td>
+    <td class="col-4 col-lg-2">  {props.transaction.reciever_name}</td>
+    <td class="col-4 col-lg-2"  >{props.transaction.reciever_accnum}</td>
   </tr>
   
 </tbody>
 </table>
+
 
 </div>
     )

@@ -5,8 +5,8 @@ import Form from './components/Form.js'
 import Header from './components/Header'
 import Customer from './components/Customer'
 import Transaction from './components/Transaction'
-import Logout from './components/Logout'
-import Dummy from './components/dummy'
+import TransactionDetails from './components/TransactionDetails'
+
 import ShowTransactions from './components/ShowTransactions'
 
 
@@ -27,11 +27,8 @@ return (<div className="container">
     <Routes>
         <Route path="/" element={<Form />} />
         <Route path="showtransactions" element={<ShowTransactions
-        ></ShowTransactions>}/> 
-        <Route path="logout" element={<Logout />} />
-
-
- 
+        ></ShowTransactions>}/>
+         <Route path="/moredetails" element={<TransactionDetails  ></TransactionDetails>}></Route>
         </Routes>
         
       
