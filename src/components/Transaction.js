@@ -26,11 +26,17 @@ const Transaction=(props)=>{
   </thead>
   <tbody>
     <tr>
+      <th scope="row">Transfer Type</th>
+      <td><h6>{props.transaction.transfer_type}</h6></td>
+     
+  
+    </tr> <tr>
       <th scope="row">Debited From</th>
       <td>{props.transaction.customer.name}</td>
      
   
-    </tr><tr>
+    </tr>
+    <tr>
       <th scope="row"></th>
       <td>{`ID : ${props.transaction.customer.customerID}`}</td>
   

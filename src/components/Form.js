@@ -125,6 +125,11 @@ const addTransaction=(e)=>{
   setSubmit("true")
 
 }
+
+
+
+
+
 const submitHandler=(submit,status,bstatus,nstatus)=>
 {
 
@@ -132,6 +137,16 @@ const submitHandler=(submit,status,bstatus,nstatus)=>
   setStatus(status)
   setBstatus(bstatus)
   setNstatus(nstatus)
+  setCiderror(null)
+  setBiderror(null)
+  setDateError(null)
+  setMsgcerror(null)
+  setNameerror(null)
+  setTransterror(null)
+  setAccerror(null)
+  setAmterror(null)
+  
+  
 }
 
 const validateForm=()=>{
@@ -197,12 +212,36 @@ if(transaction.amount===0){
   valid=false;
 
 }
+if(customer.name.startsWith("HDFC"))
+{
+if (reciever.bankName!="HDFC BANK LIMITED") 
+{
+     setBiderror("enter HDFC bank ID")
+     valid=false;
 
-
+}
+   if (!transaction.reciever_name.startsWith("HDFC") || (customer.name).toUpperCase()===(transaction.reciever_name).toUpperCase())
+   {
+  setNameerror("enter HDFC a/c name")
+  valid=false;
+   }
+  if(!(transaction.reciever_accnum==="27216037942722" ||transaction.reciever_accnum==="42895235807723" || transaction.reciever_accnum==="69652133523248"||transaction.reciever_accnum==="45002608912874"))
+    {  setAccerror("enter HDFC a/c number")
+    valid=false;
+  }
+  
+  
+  if(transaction.transfer_type==="Customer Type"){
+  setTransterror("seleect bank transfer")
+  valid =false;
+  }
+}
+if(customer.customerID===transaction.reciever_accnum){
+  setAccerror("customer ID and reciever ID cannot be Same!")
+  valid=false;
+}
 
  return valid;  
-
-
 }
 if (submit==="false")
 
@@ -251,7 +290,7 @@ if (submit==="false")
                                           <label style={{color:'red'}}>{accerror}</label>
       </div>
     <div className="mb-3">  
-      <label for="BIC" className="form-label">Trasfer Type</label>
+      <label for="BIC" className="form-label">Transfer Type</label>
 
       <select class="form-select form-select-sm" id="transfertype" onChange={e=>setTransaction({...transaction,transfer_type:e.target.value})} aria-label=".form-select-lg example">
   <option selected value="-select-">-select-</option>
