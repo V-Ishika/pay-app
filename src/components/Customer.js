@@ -5,7 +5,7 @@ const Customer=(props)=>{
 
     console.log(props.customer)
     console.log("child component")
- 
+ if (!props.customerID==='')
     console.log(`${props.customer.customerID}...${props.customer.name}....${props.customer.clearBalance}`)
    const message= <div>
         <table class="table">

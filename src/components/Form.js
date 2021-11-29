@@ -18,8 +18,8 @@ const [bstatus,setBstatus]=useState(0)
 const [nstatus,setNstatus]=useState(0)
 const[request,setRequest]=useState("false")
 const [cerror,setCerror]=useState(false)
-const [berror,setBerror]=useState(false)
-const [terror,setTerror]=useState(false)
+const [berror,setBerror]=useState(true)
+const [terror,setTerror]=useState(true)
 const [value,setValue]=useState(false)
 const [submit,setSubmit]=useState("false")
 const [dateError,setDateError]=useState(null)
@@ -30,6 +30,7 @@ const [accerror,setAccerror]=useState(null)
 const [msgcerror,setMsgcerror]=useState(null)
 const [transterror,setTransterror]=useState(null)
 const [amterror,setAmterror]=useState(null)
+const [btoberror,setBtoberror]=useState(null)
 
 
 
@@ -108,9 +109,10 @@ useEffect(()=>{
 useEffect(()=>{
   console.log("request sending")
   axios.post("http://localhost:8080/transaction/newtransaction",transaction).
-  then(response=>{console.log(response.data)
+  then(response=>{setTransaction(response.data)
   setTerror(false)}).catch(error=>{console.log(error)
   setTerror(true)})
+  console.log(terror)
 }
 ,[request])
 
@@ -137,14 +139,7 @@ const submitHandler=(submit,status,bstatus,nstatus)=>
   setStatus(status)
   setBstatus(bstatus)
   setNstatus(nstatus)
-  setCiderror(null)
-  setBiderror(null)
-  setDateError(null)
-  setMsgcerror(null)
-  setNameerror(null)
-  setTransterror(null)
-  setAccerror(null)
-  setAmterror(null)
+  window.location.reload()
   
   
 }
@@ -212,8 +207,13 @@ if(transaction.amount===0){
   valid=false;
 
 }
-if(customer.name.startsWith("HDFC"))
+if(customer.name.startsWith("HDFC")  )
 {
+  
+  if(!(customer.customerID==="27216037942722" ||customer.customerID==="42895235807723" || customer.customerID==="69652133523248"||customer.customerID==="45002608912874"))
+    {  setAccerror("enter HDFC a/c number")
+    valid=false;
+  }
 if (reciever.bankName!="HDFC BANK LIMITED") 
 {
      setBiderror("enter HDFC bank ID")
@@ -230,9 +230,10 @@ if (reciever.bankName!="HDFC BANK LIMITED")
     valid=false;
   }
   
-  
-  if(transaction.transfer_type==="Customer Type"){
-  setTransterror("seleect bank transfer")
+  console.log(transaction.transfer_type)
+  if(transaction.transfer_type!="Bank Transfer"){
+    
+  setBtoberror("select bank transfer")
   valid =false;
   }
 }
@@ -240,6 +241,12 @@ if(customer.customerID===transaction.reciever_accnum){
   setAccerror("customer ID and reciever ID cannot be Same!")
   valid=false;
 }
+if((transaction.reciever_accnum==="27216037942722" ||transaction.reciever_accnum==="42895235807723" || transaction.reciever_accnum==="69652133523248"||transaction.reciever_accnum==="45002608912874")
+&& (!(customer.name).startsWith("HDFC")))
+    {  setAccerror("enter valid a/c number")
+    valid=false;
+  }
+
 
  return valid;  
 }
@@ -297,6 +304,7 @@ if (submit==="false")
   <option value="Customer Transfer">Customer Transfer</option>
   <option value="Bank Transfer">Bank Transfer</option>
 </select> <label style={{color:'red'}}>{transterror}</label>
+<label style={{color:'red'}}>{btoberror}</label>
 
       </div>
       <div className="mb-3">  

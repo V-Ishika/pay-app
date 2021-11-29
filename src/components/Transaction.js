@@ -82,14 +82,16 @@ const Transaction=(props)=>{
 <div style={{marginLeft:10,marginTop:60}}><button type="button" class="btn btn-danger" onClick={()=>{props.submitHandler("false",0,0,0)}}>Go Back</button></div>
        
    </div>
+ const error=<div><h3 style={{color:'red',textAlign:'center'}}>Transaction failed due to insufficient funds</h3>
+                 <div style={{marginLeft:10,marginTop:60}}><button type="button" class="btn btn-danger" onClick={()=>{props.submitHandler("false",0,0,0)}}>Go Back</button></div>
+              </div>
   
  if (props.terror===false)
     return <div>{message}</div>
   
-if (props.terror===true  && balance<0){
-  return <div><h3 style={{color:'red',textAlign:'center'}}>Transaction failed due to insufficient funds</h3></div>
-}
-return <div></div>
+else if ( props.terror===true && props.transaction.transaction_id===0)
+  return <div>{error}</div>
+  return <div></div>
 
   }
 

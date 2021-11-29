@@ -7,7 +7,7 @@ const NameCheck=(props)=>{
     if (props.value && props.nstatus===1)
   return <div>{message}</div>
   if(props.value===false && props.nstatus===1)
-  return <div style={{color: 'green',paddingTop:30}}>Name Verified with SDN!!</div>
+  return <div style={{color: 'green',paddingTop:30}}>Proceed with transaction!!</div>
   return <div></div>
 }
 export default NameCheck
