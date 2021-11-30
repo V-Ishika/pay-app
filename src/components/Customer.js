@@ -11,7 +11,7 @@ const Customer=(props)=>{
         <table class="table">
   <thead>
     <tr>
-      <th scope="col">Customer Details</th>  
+      <th scope="col">Sender Details</th>  
     </tr>
   </thead>
   <tbody>
@@ -26,6 +26,10 @@ const Customer=(props)=>{
     <tr>
       <th scope="row">Balance</th>
       <td colspan="2"> {props.customer.clearBalance}</td>
+    </tr>
+    <tr>
+      <th scope="row">Overdraft</th>
+      <td colspan="2"> {props.customer.overdraft}</td>
     </tr>
   </tbody>
 </table>

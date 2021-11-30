@@ -30,7 +30,7 @@ const logoutnavbar=<nav className="navbar navbar-expand-lg navbar-dark bg-danger
         <Link className="nav-link active" aria-current="page" to="/formpage">New Transaction</Link>
      </li>
       <li className="nav-item">
-        <Link className="nav-link" to="/showtransactions">Show Transactions</Link>
+        <Link className="nav-link active" to="/showtransactions">Show Transactions</Link>
       </li><li className="nav-item">
         <Link className="nav-link active" aria-current="page" to="/logout">Logout</Link>
      </li>

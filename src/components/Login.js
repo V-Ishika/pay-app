@@ -22,7 +22,7 @@ const pwdHandler=(e)=>{
 }
   
 
-const submitHandler = (e) => {
+const formHandler = (e) => {
     e.preventDefault()
     console.log(user);
     console.log(password);
@@ -72,7 +72,7 @@ const loginform=
                             name="submit"
                             className="form-control btn btn-danger mb-3"
                             value="Login"
-                            onClick={submitHandler}
+                            onClick={formHandler}
                         />
                     </div>
                 </form>

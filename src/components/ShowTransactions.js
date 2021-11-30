@@ -3,11 +3,12 @@ import React, { useEffect, useState } from 'react'
 import Transactioncard from './Transactioncard'
 
 
-const ShowTransactions=()=>{
+const ShowTransactions=(props)=>{
 
 
     const [transactionlist,setTransactionlist]=useState([])
-
+    props.loginstatus(true)
+    
 
     useEffect(()=>{
         console.log("Show Transactions")

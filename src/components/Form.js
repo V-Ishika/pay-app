@@ -1,15 +1,18 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import  {useState} from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 import Customer from './Customer'
 import Bank from './Bank'
 import './form.css'
 import Transaction from './Transaction'
 import NameCheck from './NameCheck'
+import Insufficientfunds from './Insufficientfunds'
 
 
 const Form=(props)=>{
   console.log("Parent Component")
+  props.loginstatus(true)
 
 const [customer,setCustomer]=useState({customerID: '', name: '', clearBalance: 0, overdraft: ''})
 const [status,setStatus]=useState(0)
@@ -19,9 +22,9 @@ const [nstatus,setNstatus]=useState(0)
 const[request,setRequest]=useState("false")
 const [cerror,setCerror]=useState(false)
 const [berror,setBerror]=useState(true)
-const [terror,setTerror]=useState(true)
+const [terror,setTerror]=useState("form")
 const [value,setValue]=useState(false)
-const [submit,setSubmit]=useState("false")
+const [submit,setSubmit]=useState(false)
 const [dateError,setDateError]=useState(null)
 const [ciderror,setCiderror]=useState(null)
 const [biderror,setBiderror]=useState(null)
@@ -31,6 +34,8 @@ const [msgcerror,setMsgcerror]=useState(null)
 const [transterror,setTransterror]=useState(null)
 const [amterror,setAmterror]=useState(null)
 const [btoberror,setBtoberror]=useState(null)
+const [insufferror,setInsufferror]=useState(false)
+const navigate=useNavigate()
 
 
 
@@ -43,6 +48,7 @@ const [transaction,setTransaction]=useState({
   transfer_date:'',
   transfer_fee:0.0,
   transfer_type:""})
+
 
 const customerIDHandler=(e)=>{
   //console.log(e.target.value)
@@ -70,7 +76,7 @@ if (e.target.value.length===14){
     //console.log(e.target.value)
   //console.log(e.target.value.length)
   setBstatus(e.target.value.length)
-  if (e.target.value.length===11){
+  if (e.target.value.length>=10){
     axios.get(`http://localhost:8080/pay/get-BIC/${e.target.value}`)
     .then((response) => {
    // console.log(response.status)
@@ -109,21 +115,27 @@ useEffect(()=>{
 useEffect(()=>{
   console.log("request sending")
   axios.post("http://localhost:8080/transaction/newtransaction",transaction).
-  then(response=>{setTransaction(response.data)
-  setTerror(false)}).catch(error=>{console.log(error)
-  setTerror(true)})
-  console.log(terror)
+  then(response=>{setTransaction(response.data);
+props.setNewTransaction(response.data);
+setTerror("false");
+}).catch(error=>{console.log(error);
+  setTerror("true"); console.log(error.status);
+})
+ 
 }
 ,[request])
 
 const addTransaction=(e)=>{
 
-  e.preventDefault()
+ 
  
  const valid= validateForm()
  if (!valid) return false;
   setRequest("true")
-  if(valid===true)
+ 
+  if(valid===true && terror==="true")
+  setSubmit("terror")
+  if(valid===true && terror==="false")
   setSubmit("true")
 
 }
@@ -139,10 +151,12 @@ const submitHandler=(submit,status,bstatus,nstatus)=>
   setStatus(status)
   setBstatus(bstatus)
   setNstatus(nstatus)
+  setInsufferror(false)
   window.location.reload()
   
   
 }
+
 
 const validateForm=()=>{
 
@@ -163,12 +177,13 @@ if(berror){
 }
 
 
+
 if(reciever.bic===''){
   setBiderror("Bank BIC is required")
   valid=false;
 }
-if(reciever.bic<11){
-  setBiderror("enter valid bic with 11 characters")
+if(reciever.bic<10){
+  setBiderror("enter valid bic ")
   valid=false;
 }
 if(transaction.reciever_name===''){
@@ -238,22 +253,27 @@ if (reciever.bankName!="HDFC BANK LIMITED")
   }
 }
 if(customer.customerID===transaction.reciever_accnum){
-  setAccerror("customer ID and reciever ID cannot be Same!")
+  setAccerror("invalid a/c number")
   valid=false;
 }
 if((transaction.reciever_accnum==="27216037942722" ||transaction.reciever_accnum==="42895235807723" || transaction.reciever_accnum==="69652133523248"||transaction.reciever_accnum==="45002608912874")
 && (!(customer.name).startsWith("HDFC")))
-    {  setAccerror("enter valid a/c number")
+    {  setCiderror("enter valid hdfc a/c number to initiate bank transfer")
     valid=false;
-  }
+}
 
+  if(customer.clearBalance<transaction.amount&&customer.overdraft.toUpperCase()==="NO" && !transaction.transfer_type==="Bank Transfer"){
+  setInsufferror(true)
+  setSubmit(false)
+  }
+ 
 
  return valid;  
 }
-if (submit==="false")
 
 
-    return <div className="row" style={{marginLeft:50, marginRight:50}} >
+
+const formpage=   <div className="row" style={{marginLeft:50, marginRight:50}} >
                <div >
                      
                 <div className="col-6" >
@@ -266,7 +286,7 @@ if (submit==="false")
                              </div>
                              <div className="mb-3">
                                          <h4 style={{marginBottom:20}}>Transfer from</h4>
-                                         <label for="customerID" className="form-label">Customer ID</label>
+                                         <label for="customerID" className="form-label">Sender ID</label>
                                          <input type="text" required className="form-control" id="customerID" placeholder="enter customer ID" onChange={customerIDHandler}/>
                                          <label style={{color:'red'}}>{ciderror}</label>
                                          <div><Customer cerror={cerror} status={status} customer={customer}/></div>
@@ -328,6 +348,7 @@ if (submit==="false")
                             <label for="BIC" className="form-label">Amount</label>
                            <input type="number" className="form-control" id="num" placeholder="enter Amount" onChange={e=>setTransaction({...transaction,amount:e.target.value,transfer_fee:0.0025*e.target.value})}/>
                            <label style={{color:'red'}}>{amterror}</label>
+                           <label style={{color:'red'}}>{insufferror}</label>
       </div>
       <div className="mb-3">
       
@@ -337,14 +358,22 @@ if (submit==="false")
       </div>
       </form>
       </div>
+      </div>
+      </div>
+    const invoice= <div><Transaction submitHandler={submitHandler} transaction={transaction}/></div>
+    const insufficient=<div><Insufficientfunds submitHandler={submitHandler} /></div>
+    if (!submit && !insufferror)
+    return <div>{formpage}</div>
+    if(submit && !insufferror)
+    return <div>{invoice}</div>
+    if(insufferror)
+    return <div>{insufficient}</div>
+    
+    
+    
 
-      </div>
-      </div>
-      if(submit==="true") return <div><Transaction terror={terror} submitHandler={submitHandler}  transaction={transaction}/></div>
 
      
- 
- 
 }
 
 export default Form;

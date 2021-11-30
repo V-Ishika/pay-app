@@ -1,5 +1,4 @@
 import React, {useEffect,useState} from 'react'
-import {useNavigate} from 'react-router-dom'
 
 
 //const [transactionlist,setTransactionList]=useState([])
@@ -8,8 +7,8 @@ const Transaction=(props)=>{
 
   const [balance,setBalance]=useState(props.transaction.customer.clearBalance-props.transaction.amount-props.transaction.amount*0.0025)
   console.log(props.transaction)
-    const overdraft= props.transaction.customer.overdraft
-    console.log(props.terror)
+ 
+  
    
 
   
@@ -65,7 +64,7 @@ const Transaction=(props)=>{
    
     </tr><tr>
       <th scope="row">Transaction charges</th>
-      <td colspan="2">{props.transaction.transfer_fee}</td>
+      <td colspan="2">{props.transaction.transfer_fee}</td>n
    
     </tr>
 
@@ -83,15 +82,13 @@ const Transaction=(props)=>{
        
    </div>
  const error=<div><h3 style={{color:'red',textAlign:'center'}}>Transaction failed due to insufficient funds</h3>
-                 <div style={{marginLeft:10,marginTop:60}}><button type="button" class="btn btn-danger" onClick={()=>{props.submitHandler("false",0,0,0)}}>Go Back</button></div>
+                 <div style={{marginLeft:10,marginTop:60}}><button type="button" class="btn btn-danger" onClick={()=>{props.submitHandler(false,0,0,0)}}>Go Back</button></div>
               </div>
   
- if (props.terror===false)
+ 
     return <div>{message}</div>
   
-else if ( props.terror===true && props.transaction.transaction_id===0)
-  return <div>{error}</div>
-  return <div></div>
+
 
   }
 

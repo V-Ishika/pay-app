@@ -29,9 +29,9 @@ const Bank=(props)=>{
     </div>
    
     console.log(props.bstatus)
-    if(props.bstatus===11 && props.berror===false)
+    if(props.bstatus>=10 && props.berror===false)
     return <div>{message}</div>
-    if(props.bstatus===11 && props.berror===true)
+    if(props.bstatus>=10 && props.berror===true)
     return <div style={{color:'red',paddingTop:30}}>Bank BIC do not exist</div>
     return <div></div>
   
